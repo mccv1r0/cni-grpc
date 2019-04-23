@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -198,10 +199,7 @@ func cniCommon(conf string, netns string, ifName string, args string, capability
 	s := sha512.Sum512([]byte(netns))
 	containerID := fmt.Sprintf("cnitool-%x", s[:10])
 
-	// TODO - remove hard coded cniBinPath
-	//cninet := libcni.NewCNIConfig(filepath.SplitList(os.Getenv(EnvCNIPath)), nil)
-	cniBinPath := "/home/mcambria/go/src/github.com/mccv1r0/plugins/bin"
-	cninet := libcni.NewCNIConfig(filepath.SplitList(cniBinPath), nil)
+	cninet := libcni.NewCNIConfig(filepath.SplitList(os.Getenv(EnvCNIPath)), nil)
 
 	rt := &libcni.RuntimeConf{
 		ContainerID:    containerID,

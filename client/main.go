@@ -59,9 +59,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// TODO - remove hard coded path and use EnvNetDir
-	//netdir := os.Getenv(EnvNetDir)
-	netdir := "/home/mcambria/go/src/github.com/containernetworking"
+	netdir := os.Getenv(EnvNetDir)
 	if netdir == "" {
 		netdir = DefaultNetDir
 	}
