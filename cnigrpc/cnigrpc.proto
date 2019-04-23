@@ -1,0 +1,94 @@
+syntax = "proto3";
+package cnigrpc;
+
+import "google/api/annotations.proto";
+
+service CNIserver {
+  // Process CNI message
+  rpc CNIconfig (ConfPath) returns (CNIerror) {}
+  
+  rpc CNIadd (CNIaddMsg) returns (ADDresult) {
+  }
+
+  rpc CNIcheck (CNIcheckMsg) returns (CHECKresult) {
+  }
+
+  rpc CNIdel (CNIdelMsg) returns (DELresult) {
+  }
+}
+
+message CNIerror {
+    string error = 1;
+}
+
+//    "portMappings": [
+//        { "hostPort": 9090, "containerPort": 90, "protocol": "sctp" },
+//        { "hostPort": 9090, "containerPort": 90, "protocol": "tcp" }
+//    ]
+
+message CNIcapArgs {
+
+  message PORTMAPPINGS {
+    double hostPort = 1;
+    double containerPort = 2;
+    string protocol = 3;
+  }
+
+  repeated PORTMAPPINGS portMappings = 1;
+
+  message FOOMAP {
+    string thing1 = 1;
+    string thing2 = 2;
+  }
+
+  repeated FOOMAP fooMap = 2;
+}
+
+message ConfPath {
+  string netDir = 1;
+  string netConf = 2;
+}
+
+message CNIaddMsg {
+  string conf = 1;
+  string containerID = 2;
+  string netNS = 3;
+  string ifName = 4;
+  string cniArgs = 5;
+  CNIcapArgs capArgs = 6;
+  //string capArgs = 6;
+}
+
+message ADDresult {
+  string error = 1;
+  string stdOut = 2;
+}
+
+message CNIcheckMsg {
+  string conf = 1;
+  string containerID = 2;
+  string netNS = 3;
+  string ifName = 4;
+  string cniArgs = 5;
+  CNIcapArgs capArgs = 6;
+  //string capArgs = 6;
+}
+
+message CHECKresult {
+  string error = 1;
+}
+
+message CNIdelMsg {
+  string conf =1;
+  string containerID = 2;
+  string netNS = 3;
+  string ifName = 4;
+  string cniArgs = 5;
+  CNIcapArgs capArgs = 6;
+  //string capArgs = 6;
+}
+
+message DELresult {
+  string error = 1;
+  string stdOut = 2;
+}
